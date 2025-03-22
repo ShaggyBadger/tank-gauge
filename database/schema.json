@@ -1,0 +1,72 @@
+{
+    "fuelTypes": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "fuelType": "TEXT"
+        },
+        "foreign_keys": []
+    },
+    "tankData": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "name": "TEXT",
+            "manufacturer": "TEXT",
+            "model": "TEXT",
+            "capacity": "INTEGER",
+            "maxDepth": "INTEGER",
+            "miscInfo": "TEXT",
+            "chartSource": "TEXT"
+        },
+        "foreign_keys": []
+    },
+    "storeInfo": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "storeNum": "INTEGER",
+            "risoNum": "INTEGER",
+            "storeName": "TEXT",
+            "storeType": "TEXT",
+            "address": "TEXT",
+            "city": "TEXT",
+            "state": "TEXT",
+            "phoneNum": "INTEGER"
+        },
+        "foreign_keys": []
+    },
+    "tankCharts": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "tankTypeId": "INTEGER",
+            "inch": "INTEGER",
+            "gallon": "INTEGER"
+        },
+        "foreign_keys": [
+            {
+                "column": "tankTypeId",
+                "references": "tankData(id)"
+            }
+        ]
+    },
+    "storeTankData": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "storeId": "INTEGER",
+            "fuelTypeId": "INTEGER",
+            "tankId": "INTEGER"
+        },
+        "foreign_keys": [
+            {
+                "column": "storeId",
+                "references": "storeInfo(id)"
+            },
+            {
+                "column": "fuelTypeId",
+                "references": "fuelTypes(id)"
+            },
+            {
+                "column": "tankId",
+                "references": "tankData(id)"
+            }
+        ]
+    }
+}
