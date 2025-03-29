@@ -1,8 +1,12 @@
 import settings
 import json
 import console
+import importlib
+import os
 from src import db_utils
+from src import processing
 from pathlib import Path
+import pandas as pd
 
 
 
@@ -81,24 +85,34 @@ def build_directories():
 	
 	print('All necessary directories now exist\n')
 
+def process_tank_charts():
+	processing.process_all_charts()
+
+def validate_selection(selection):
+	option_list = ['1', '2']
+	
+	if selection in option_list:
+		valid_selection = True
+	else:
+		console.clear()
+		print(f'{selection} is not a valid selection. Please try again.\n\nPress any key to continue...')
+		input()
+		valid_selection = False
+	
+	return valid_selection
+
 def controller():
 	valid_selection = False
 	while valid_selection is False:
 		console.clear()
 		
-		option_list = ['1', '2']
 		print('Please select an option:\n')
 		print('1: Construct directories and database')
 		print('2: Populate database')
-		
+	
 		selection = input('\nEnter selection... ')
+		valid_selection = validate_selection(selection)
 		
-		if selection in option_list:
-			valid_selection = True
-		else:
-			console.clear()
-			print(f'{selection} is not a valid selection. Please try again.\n\nPress any key to continue...')
-			input()
 		
 	if selection == '1':
 		console.clear()
@@ -107,7 +121,12 @@ def controller():
 		print('Directory construction complete. Constructing the database...')
 		build_db()
 		print('\nConstruction complete. Thank you.\n\nTERMINATING PROGRAM....')
+	
+	elif selection == '2':
+		process_tank_charts()
 		
 if __name__ == '__main__':
+	importlib.reload(settings)
 	controller()
+	importlib.reload(processing)
 		

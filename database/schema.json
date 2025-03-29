@@ -36,9 +36,9 @@
     "tankCharts": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "tankTypeId": "INTEGER",
-            "inch": "INTEGER",
-            "gallon": "INTEGER"
+            "tankTypeId": "INTEGER NOT NULL",
+            "inch": "INTEGER NOT NULL",
+            "gallon": "INTEGER NOT NULL"
         },
         "foreign_keys": [
             {

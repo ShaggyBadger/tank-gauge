@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).parent
 
 # Main directories inside root
 DATA_PATH = BASE_DIR / 'data'
-TANK_CHARTS = DATA_PATH / 'tank_charts'
+CHARTS_PATH = DATA_PATH / 'tank_charts'
 MISC = DATA_PATH / 'misc'
 
 # path to src directory
@@ -44,7 +44,6 @@ tankData = 'tankData'
 storeInfo = 'storeInfo'
 tankCharts = 'tankCharts'
 storeTankData = 'storeTankData'
-
 
 # super common call. put this here so everyone can use it
 def db_connection():
