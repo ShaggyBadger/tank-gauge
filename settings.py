@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).parent
 # Main directories inside root
 DATA_PATH = BASE_DIR / 'data'
 CHARTS_PATH = DATA_PATH / 'tank_charts'
-MISC = DATA_PATH / 'misc'
+MISC_PATH = DATA_PATH / 'misc'
 
 # path to src directory
 SRC_PATH = BASE_DIR / 'src'
@@ -39,7 +39,7 @@ up_arrow = '&#x2191;'
 down_arrow = '&#x2193;'
 
 # univeral refrence source. handy.
-fuelTypea = 'fuelTypes'
+fuelTypes = 'fuelTypes'
 tankData = 'tankData'
 storeInfo = 'storeInfo'
 tankCharts = 'tankCharts'

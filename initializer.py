@@ -74,10 +74,9 @@ def build_directories():
 	directory_list = [
 		settings.BASE_DIR,
 		settings.DATA_PATH,
-		settings.TANK_CHARTS,
-		settings.MISC,
-		settings.SRC_PATH,
-		settings.DATABASE_PATH
+		settings.CHARTS_PATH,
+		settings.MISC_PATH,
+		settings.SRC_PATH,	settings.DATABASE_PATH
 		]
 	
 	for directory in directory_list:
@@ -86,6 +85,7 @@ def build_directories():
 	print('All necessary directories now exist\n')
 
 def process_tank_charts():
+	processing.tankData_entry()
 	processing.process_all_charts()
 
 def validate_selection(selection):
@@ -129,4 +129,5 @@ if __name__ == '__main__':
 	importlib.reload(settings)
 	controller()
 	importlib.reload(processing)
+	importlib.reload(db_utils)
 		

@@ -2,14 +2,14 @@
     "fuelTypes": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "fuelType": "TEXT"
+            "fuelType": "TEXT UNIQUE"
         },
         "foreign_keys": []
     },
     "tankData": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "name": "TEXT",
+            "name": "TEXT UNIQUE",
             "manufacturer": "TEXT",
             "model": "TEXT",
             "capacity": "INTEGER",
@@ -22,7 +22,7 @@
     "storeInfo": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "storeNum": "INTEGER",
+            "storeNum": "INTEGER UNIQUE",
             "risoNum": "INTEGER",
             "storeName": "TEXT",
             "storeType": "TEXT",
@@ -37,8 +37,9 @@
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
             "tankTypeId": "INTEGER NOT NULL",
-            "inch": "INTEGER NOT NULL",
-            "gallon": "INTEGER NOT NULL"
+            "inches": "INTEGER NOT NULL",
+            "gallons": "INTEGER NOT NULL",
+            "tankName": "TEXT NOT NULL"
         },
         "foreign_keys": [
             {
