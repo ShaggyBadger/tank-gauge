@@ -7,6 +7,8 @@ from src import db_utils
 from src import processing
 from pathlib import Path
 import pandas as pd
+from rich.traceback import install
+install()
 
 
 
@@ -101,6 +103,12 @@ def validate_selection(selection):
 	
 	return valid_selection
 
+def enter_fuel_types():
+	print('\n****--------****')
+	print('Entering fuel types in to the datase...')
+	processing.fuelType_entry()
+	print('Fuel type entry complete')
+
 def controller():
 	valid_selection = False
 	while valid_selection is False:
@@ -124,6 +132,7 @@ def controller():
 	
 	elif selection == '2':
 		process_tank_charts()
+		enter_fuel_types()
 		
 if __name__ == '__main__':
 	importlib.reload(settings)

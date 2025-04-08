@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from src import db_utils
 import settings
 import pandas as pd
-import console
+import console	
 
 def process_all_charts():
 	# build list of tank chart files fo process into the db
@@ -139,7 +139,3 @@ def fuelType_entry():
 if __name__ == '__main__':
 	importlib.reload(db_utils)
 	importlib.reload(settings)
-	
-	tankData_entry()
-	fuelType_entry()
-	process_all_charts()

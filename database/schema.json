@@ -29,7 +29,10 @@
             "address": "TEXT",
             "city": "TEXT",
             "state": "TEXT",
-            "phone_num": "INTEGER"
+            "zip": "INTEGER",
+            "county": "TEXT",
+            "lat": "FLOAT",
+            "lon": "FLOAT"
         },
         "foreign_keys": []
     },
