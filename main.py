@@ -2,6 +2,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import importlib
 import initializer
+import settings
+from rich.traceback import install
+
+install()
+
 
 np.random.seed(0)
 data = np.random.rand(50, 50)

@@ -24,7 +24,7 @@ def process_all_charts():
 		df = pd.read_excel(file_path)
 		
 		# build column names
-		col_names = ['tankTypeId', 'inches', 'gallons', 'tankName']
+		col_names = ['tank_type_id', 'inches', 'gallons', 'tank_name']
 		
 		# get row data
 		row_data_list = []
@@ -33,10 +33,10 @@ def process_all_charts():
 		for index, data in rows:
 			inches = data['inches']
 			gallons = data['gallons']
-			tankName = data['tank_name']
+			tank_name = data['tank_name']
 			
 			sql = f'SELECT id FROM {settings.tankData} WHERE name = ?'
-			value = (tankName,)
+			value = (tank_name,)
 			c.execute(sql, value)
 			result = c.fetchone()
 			
@@ -47,10 +47,10 @@ def process_all_charts():
 					tankTypeId,
 					inches,
 					gallons,
-					tankName
+					tank_name
 					]
 				
-				sql = f'SELECT id FROM {settings.tankCharts} WHERE tankTypeId = ? AND inches = ? AND gallons = ? AND tankName = ?'
+				sql = f'SELECT id FROM {settings.tankCharts} WHERE tank_type_id = ? AND inches = ? AND gallons = ? AND tank_name = ?'
 				values = tuple(row_data)
 				c.execute(sql, values)
 				result = c.fetchone()

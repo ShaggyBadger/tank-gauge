@@ -127,7 +127,8 @@ def controller():
 		
 if __name__ == '__main__':
 	importlib.reload(settings)
-	controller()
 	importlib.reload(processing)
 	importlib.reload(db_utils)
+	
+	controller()
 		

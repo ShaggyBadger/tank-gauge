@@ -2,7 +2,7 @@
     "fuelTypes": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "fuelType": "TEXT UNIQUE"
+            "fuel_type": "TEXT UNIQUE"
         },
         "foreign_keys": []
     },
@@ -13,37 +13,37 @@
             "manufacturer": "TEXT",
             "model": "TEXT",
             "capacity": "INTEGER",
-            "maxDepth": "INTEGER",
-            "miscInfo": "TEXT",
-            "chartSource": "TEXT"
+            "max_depth": "INTEGER",
+            "misc_info": "TEXT",
+            "chart_source": "TEXT"
         },
         "foreign_keys": []
     },
     "storeInfo": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "storeNum": "INTEGER UNIQUE",
-            "risoNum": "INTEGER",
-            "storeName": "TEXT",
-            "storeType": "TEXT",
+            "store_num": "INTEGER UNIQUE",
+            "riso_num": "INTEGER",
+            "store_name": "TEXT",
+            "store_type": "TEXT",
             "address": "TEXT",
             "city": "TEXT",
             "state": "TEXT",
-            "phoneNum": "INTEGER"
+            "phone_num": "INTEGER"
         },
         "foreign_keys": []
     },
     "tankCharts": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "tankTypeId": "INTEGER NOT NULL",
+            "tank_type_id": "INTEGER NOT NULL",
             "inches": "INTEGER NOT NULL",
             "gallons": "INTEGER NOT NULL",
-            "tankName": "TEXT NOT NULL"
+            "tank_name": "TEXT NOT NULL"
         },
         "foreign_keys": [
             {
-                "column": "tankTypeId",
+                "column": "tank_type_id",
                 "references": "tankData(id)"
             }
         ]
@@ -51,21 +51,21 @@
     "storeTankData": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "storeId": "INTEGER",
-            "fuelTypeId": "INTEGER",
-            "tankId": "INTEGER"
+            "store_id": "INTEGER",
+            "fuel_type_id": "INTEGER",
+            "tank_id": "INTEGER"
         },
         "foreign_keys": [
             {
-                "column": "storeId",
+                "column": "store_id",
                 "references": "storeInfo(id)"
             },
             {
-                "column": "fuelTypeId",
+                "column": "fuel_type_id",
                 "references": "fuelTypes(id)"
             },
             {
-                "column": "tankId",
+                "column": "tank_id",
                 "references": "tankData(id)"
             }
         ]
