@@ -32,15 +32,19 @@ def get_column_names(table):
 
 def enter_table_data(data_package):
 	'''
-	data package needs to be dict with 3 keys:
-		table_name
-		col_names
-		row_data
+	Inserts rows of data into a specified table in the database.
 	
-	col_names is list containing column names. duh
-	
-	row_data is a list of lists. each interior list holds the data for
-	each column in col_names
+	The data_package must be a dictionary with the following keys:
+		- table_name: Name of the database table to insert into.
+		
+		- col_names: A list of column names corresponding to each value in the row data.
+		
+		- row_data: A list of lists, where each inner list represents a row of data to insert into the columns defined by col_names.
+		
+	Notes:
+		- Columns must match the database table schema.
+		
+		- Rows with duplicate primary keys or constraints will be ignored (INSERT OR IGNORE).
 	'''
 	# sort out data package
 	table = data_package['table_name']
@@ -69,7 +73,7 @@ def enter_table_data(data_package):
 	conn.commit()
 	print('************')
 	print(f'Successfuly entered {counter} rows of data into {table}')
-	print('************+\n')
+	print('************\n')
 
 	conn.close()
 

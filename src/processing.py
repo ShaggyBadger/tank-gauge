@@ -6,8 +6,81 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from src import db_utils
 import settings
 import pandas as pd
-import console	
+import console
 
+def storeInfo_entry():
+	'''
+	Reads store information from an Excel file and inserts it into the database.
+	
+	This function performs the following steps:
+		1. Loads the Excel file `storeInfo_master.xlsx` located in `settings.MISC_PATH`.
+		
+		2. Converts each row into a dictionary keyed by column names.
+		
+		3. Queries the database to retrieve the column names (excluding 'id') from the `storeInfo` table.
+		
+		4. Filters and reorders the row data to match the database schema.
+		
+		5. Packages the data and calls `db_utils.enter_table_data()` to insert it into the database.
+		
+	Returns:
+		None
+	'''
+	master_file_path = settings.MISC_PATH / 'storeInfo_master.xlsx'
+	
+	df = pd.read_excel(master_file_path)
+	df_col_names = df.columns.to_list()
+	
+	# get column data
+	dict_list = []
+	rows = df.iterrows()
+	
+	for index, data in rows:
+		row_data = data.tolist()
+		row_dict = dict(zip(df_col_names,row_data))
+		
+		dict_list.append(row_dict)
+	
+	# get table columns
+	conn = db_utils.db_connection()
+	c = conn.cursor()
+	
+	sql = f'''
+	SELECT *
+	FROM {settings.storeInfo}
+	LIMIT 1
+	'''
+	c.execute(sql)
+	
+	col_names = [
+		result[0] for result
+		in c.description
+		if result[0] != 'id'
+		]
+	
+	conn.close()
+	
+	row_data = []
+	
+	for a_dict in dict_list:
+		db_entry = [
+			a_dict[col] for col
+			in col_names
+			]
+			
+		row_data.append(db_entry)
+	
+	# organize data for entry
+	data_package = {
+		'table_name': settings.storeInfo,
+		'col_names': col_names,
+		'row_data': row_data
+	}
+	
+	db_utils.enter_table_data(
+		data_package
+		)
+	
 def process_all_charts():
 	# build list of tank chart files fo process into the db
 	charts_path = settings.CHARTS_PATH
@@ -137,5 +210,9 @@ def fuelType_entry():
 		)
 
 if __name__ == '__main__':
+	from rich.traceback import install
+	install()
 	importlib.reload(db_utils)
 	importlib.reload(settings)
+	
+	storeInfo_entry()

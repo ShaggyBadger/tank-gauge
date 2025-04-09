@@ -109,6 +109,12 @@ def enter_fuel_types():
 	processing.fuelType_entry()
 	print('Fuel type entry complete')
 
+def enter_store_data():
+	print('\n****--------****')
+	print('Entering store info in to the datase...')
+	processing.storeInfo_entry()
+	print('Store Info entry complete')
+
 def controller():
 	valid_selection = False
 	while valid_selection is False:
@@ -133,6 +139,7 @@ def controller():
 	elif selection == '2':
 		process_tank_charts()
 		enter_fuel_types()
+		enter_store_data()
 		
 if __name__ == '__main__':
 	importlib.reload(settings)
