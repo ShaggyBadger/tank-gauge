@@ -86,9 +86,11 @@ def build_directories():
 	
 	print('All necessary directories now exist\n')
 
-def process_tank_charts():
-	processing.tankData_entry()
+def enter_tank_charts():
+	print('\n****--------****')
+	print('Entering tankCharts into the datase...')
 	processing.process_all_charts()
+	print('tankCharts entry complete')
 
 def validate_selection(selection):
 	option_list = ['1', '2']
@@ -105,7 +107,7 @@ def validate_selection(selection):
 
 def enter_fuel_types():
 	print('\n****--------****')
-	print('Entering fuel types in to the datase...')
+	print('Entering fuel types into the datase...')
 	processing.fuelType_entry()
 	print('Fuel type entry complete')
 
@@ -114,6 +116,18 @@ def enter_store_data():
 	print('Entering store info in to the datase...')
 	processing.storeInfo_entry()
 	print('Store Info entry complete')
+
+def enter_tankData():
+	print('\n****--------****')
+	print('Entering tankData info in to the datase...')
+	processing.tankData_entry()
+	print('tankData Info entry complete')
+
+def enter_storeTankData():
+	print('\n****--------****')
+	print('Entering storeTankData info in to the datase...')
+	processing.storeTankData_entry()
+	print('storeTankData Info entry complete')
 
 def controller():
 	valid_selection = False
@@ -137,7 +151,8 @@ def controller():
 		print('\nConstruction complete. Thank you.\n\nTERMINATING PROGRAM....')
 	
 	elif selection == '2':
-		process_tank_charts()
+		enter_tankData()
+		enter_tank_charts()
 		enter_fuel_types()
 		enter_store_data()
 		

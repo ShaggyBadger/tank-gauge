@@ -209,10 +209,83 @@ def fuelType_entry():
 		data_package
 		)
 
+def storeTankData_entry():
+	'''
+	store_id
+  fuel_type_id
+  tank_id
+	'''
+	store_id_dict = {}
+	fuel_type_id_dict = {}
+	tank_id_dict = {}
+	
+	conn = db_utils.db_connection()
+	c = conn.cursor()
+	
+	# build store_id dict
+	sql = f'''
+	SELECT store_num, id
+	FROM {settings.storeInfo}
+	'''
+	c.execute(sql)
+	results = c.fetchall()
+	
+	for result in results:
+		store_id_dict[result[0]] = result[1]
+
+	# build fuel_type_id dict
+	sql = f'''
+	SELECT fuel_type, id
+	FROM {settings.fuelTypes}
+	'''
+	c.execute(sql)
+	results = c.fetchall()
+	
+	for result in results:
+		fuel_type_id_dict[result[0]] = result[1]
+
+	# build tank_id dict
+	sql = f'''
+	SELECT name, id
+	FROM {settings.tankData}
+	'''
+	c.execute(sql)
+	results = c.fetchall()
+	
+	for result in results:
+		tank_id_dict[result[0]] = result[1]
+	
+	# build rows of data
+	df = pd.read_excel(
+		settings.MISC_PATH / 'storeInfo_master.xlsx',
+		usecols=[
+			'store_num',
+			'regular',
+			'plus',
+			'premium',
+			'kerosene',
+			'diesel'
+		]
+	)
+	
+	store_tank_list = df.to_dict(
+		orient='records'
+		)
+	
+	
+	
+	for store_num in store_id_dict:
+		sql = '''
+		SELECT 
+		'''
+		
+	
+	conn.close()
+
 if __name__ == '__main__':
 	from rich.traceback import install
 	install()
 	importlib.reload(db_utils)
 	importlib.reload(settings)
 	
-	storeInfo_entry()
+	storeTankData_entry()
