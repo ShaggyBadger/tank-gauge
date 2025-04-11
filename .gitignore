@@ -22,10 +22,14 @@ Thumbs.db
 # ignore db and csv files and images
 *.db
 *.csv
+*.xlsx
 # Ignore all image files
 *.png
 *.jpg
 *.jpeg
 *.pdf
 /data/misc/temp.py
-/data/misc/storeInfo_master.xlsx
+
+
+
+

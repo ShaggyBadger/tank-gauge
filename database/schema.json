@@ -1,0 +1,55 @@
+{
+    "tankData": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "name": "TEXT UNIQUE",
+            "manufacturer": "TEXT",
+            "model": "TEXT",
+            "capacity": "INTEGER",
+            "max_depth": "INTEGER",
+            "misc_info": "TEXT",
+            "chart_source": "TEXT"
+        },
+        "foreign_keys": []
+    },
+    "storeInfo": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "store_num": "INTEGER UNIQUE",
+            "riso_num": "INTEGER",
+            "store_name": "TEXT",
+            "store_type": "TEXT",
+            "num_tanks": "INTEGER",
+            "regular": "TEXT",
+            "premium": "TEXT",
+            "plus": "TEXT",
+            "kerosene": "TEXT",
+            "diesel":"TEXT",
+            "address": "TEXT",
+            "city": "TEXT",
+            "state": "TEXT",
+            "zip": "INTEGER",
+            "county": "TEXT",
+            "lat": "FLOAT",
+            "lon": "FLOAT",
+            "install_date": "TEXT",
+            "overfill_protection": "TEXT"
+        },
+        "foreign_keys": []
+    },
+    "tankCharts": {
+        "column_info": {
+            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+            "tank_type_id": "INTEGER NOT NULL",
+            "inches": "INTEGER NOT NULL",
+            "gallons": "INTEGER NOT NULL",
+            "tank_name": "TEXT NOT NULL"
+        },
+        "foreign_keys": [
+            {
+                "column": "tank_type_id",
+                "references": "tankData(id)"
+            }
+        ]
+    }
+}
