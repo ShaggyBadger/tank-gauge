@@ -1,11 +1,4 @@
 {
-    "fuelTypes": {
-        "column_info": {
-            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "fuel_type": "TEXT UNIQUE"
-        },
-        "foreign_keys": []
-    },
     "tankData": {
         "column_info": {
             "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
@@ -26,13 +19,21 @@
             "riso_num": "INTEGER",
             "store_name": "TEXT",
             "store_type": "TEXT",
+            "num_tanks": "INTEGER",
+            "regular": "TEXT",
+            "premium": "TEXT",
+            "plus": "TEXT",
+            "kerosene": "TEXT",
+            "diesel":"TEXT",
             "address": "TEXT",
             "city": "TEXT",
             "state": "TEXT",
             "zip": "INTEGER",
             "county": "TEXT",
             "lat": "FLOAT",
-            "lon": "FLOAT"
+            "lon": "FLOAT",
+            "install_date": "TEXT",
+            "overfill_protection": "TEXT"
         },
         "foreign_keys": []
     },
@@ -47,28 +48,6 @@
         "foreign_keys": [
             {
                 "column": "tank_type_id",
-                "references": "tankData(id)"
-            }
-        ]
-    },
-    "storeTankData": {
-        "column_info": {
-            "id": "INTEGER PRIMARY KEY AUTOINCREMENT",
-            "store_id": "INTEGER",
-            "fuel_type_id": "INTEGER",
-            "tank_id": "INTEGER"
-        },
-        "foreign_keys": [
-            {
-                "column": "store_id",
-                "references": "storeInfo(id)"
-            },
-            {
-                "column": "fuel_type_id",
-                "references": "fuelTypes(id)"
-            },
-            {
-                "column": "tank_id",
                 "references": "tankData(id)"
             }
         ]

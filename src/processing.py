@@ -7,6 +7,18 @@ from src import db_utils
 import settings
 import pandas as pd
 import console
+import numpy as np
+import datetime
+
+def sanitize_value(val):
+	if pd.isna(val):
+		return None
+	elif isinstance(val, (pd.Timestamp, datetime.datetime)):
+		return val.isoformat()
+	elif isinstance(val, np.generic):
+		return val.item()
+	else:
+		return val
 
 def storeInfo_entry():
 	'''
@@ -37,7 +49,11 @@ def storeInfo_entry():
 	
 	for index, data in rows:
 		row_data = data.tolist()
-		row_dict = dict(zip(df_col_names,row_data))
+		cleaned_row = [
+			sanitize_value(i) for i
+			in row_data
+			]
+		row_dict = dict(zip(df_col_names,cleaned_row))
 		
 		dict_list.append(row_dict)
 	
@@ -62,14 +78,14 @@ def storeInfo_entry():
 	
 	row_data = []
 	
-	for a_dict in dict_list:
+	for row_dict in dict_list:
 		db_entry = [
-			a_dict[col] for col
+			row_dict[col] for col
 			in col_names
 			]
 			
 		row_data.append(db_entry)
-	
+		
 	# organize data for entry
 	data_package = {
 		'table_name': settings.storeInfo,
@@ -180,112 +196,10 @@ def tankData_entry():
 		console.clear()
 		print('Something is wrong with enterting the data for tankData. see processing.tankData_entry to work on this')
 
-def fuelType_entry():
-	fuelTypes = settings.MISC_PATH / 'fuelTypes.xlsx'
-	
-		# get data from spreadsheet
-	df = pd.read_excel(fuelTypes)
-	
-	# get column names
-	col_names = df.columns.tolist()
-	
-	# get column data
-	row_data = []
-	rows = df.iterrows()
-	
-	for index, data in rows:
-		row_data.append(
-			data.tolist()
-			)
-	
-	# organize data for entry
-	data_package = {
-		'table_name': settings.fuelTypes,
-		'col_names': col_names,
-		'row_data': row_data
-	}
-	
-	db_utils.enter_table_data(
-		data_package
-		)
-
-def storeTankData_entry():
-	'''
-	store_id
-  fuel_type_id
-  tank_id
-	'''
-	store_id_dict = {}
-	fuel_type_id_dict = {}
-	tank_id_dict = {}
-	
-	conn = db_utils.db_connection()
-	c = conn.cursor()
-	
-	# build store_id dict
-	sql = f'''
-	SELECT store_num, id
-	FROM {settings.storeInfo}
-	'''
-	c.execute(sql)
-	results = c.fetchall()
-	
-	for result in results:
-		store_id_dict[result[0]] = result[1]
-
-	# build fuel_type_id dict
-	sql = f'''
-	SELECT fuel_type, id
-	FROM {settings.fuelTypes}
-	'''
-	c.execute(sql)
-	results = c.fetchall()
-	
-	for result in results:
-		fuel_type_id_dict[result[0]] = result[1]
-
-	# build tank_id dict
-	sql = f'''
-	SELECT name, id
-	FROM {settings.tankData}
-	'''
-	c.execute(sql)
-	results = c.fetchall()
-	
-	for result in results:
-		tank_id_dict[result[0]] = result[1]
-	
-	# build rows of data
-	df = pd.read_excel(
-		settings.MISC_PATH / 'storeInfo_master.xlsx',
-		usecols=[
-			'store_num',
-			'regular',
-			'plus',
-			'premium',
-			'kerosene',
-			'diesel'
-		]
-	)
-	
-	store_tank_list = df.to_dict(
-		orient='records'
-		)
-	
-	
-	
-	for store_num in store_id_dict:
-		sql = '''
-		SELECT 
-		'''
-		
-	
-	conn.close()
-
 if __name__ == '__main__':
 	from rich.traceback import install
 	install()
 	importlib.reload(db_utils)
 	importlib.reload(settings)
 	
-	storeTankData_entry()
+	storeInfo_entry()

@@ -105,12 +105,6 @@ def validate_selection(selection):
 	
 	return valid_selection
 
-def enter_fuel_types():
-	print('\n****--------****')
-	print('Entering fuel types into the datase...')
-	processing.fuelType_entry()
-	print('Fuel type entry complete')
-
 def enter_store_data():
 	print('\n****--------****')
 	print('Entering store info in to the datase...')
@@ -130,31 +124,16 @@ def enter_storeTankData():
 	print('storeTankData Info entry complete')
 
 def controller():
-	valid_selection = False
-	while valid_selection is False:
-		console.clear()
-		
-		print('Please select an option:\n')
-		print('1: Construct directories and database')
-		print('2: Populate database')
-	
-		selection = input('\nEnter selection... ')
-		valid_selection = validate_selection(selection)
-		
-		
-	if selection == '1':
-		console.clear()
-		print('Constructing directories and database...')
-		build_directories()
-		print('Directory construction complete. Constructing the database...')
-		build_db()
-		print('\nConstruction complete. Thank you.\n\nTERMINATING PROGRAM....')
-	
-	elif selection == '2':
-		enter_tankData()
-		enter_tank_charts()
-		enter_fuel_types()
-		enter_store_data()
+	console.clear()
+	print('Constructing directories and database...')
+	build_directories()
+	print('Directory construction complete. Constructing the database...')
+	build_db()
+	print('\nConstruction complete. Thank you.\n\nTERMINATING PROGRAM....')
+
+	enter_tankData()
+	enter_tank_charts()
+	enter_store_data()
 		
 if __name__ == '__main__':
 	importlib.reload(settings)

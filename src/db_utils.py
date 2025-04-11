@@ -63,14 +63,25 @@ def enter_table_data(data_package):
 	
 	# build and exexute sql to insert each row of data
 	counter = 0
+
 	for row in row_data:
 		sql = f'INSERT OR IGNORE INTO {table} ({", ".join(col_names)}) VALUES ({placeholders})'
 		values = tuple(row)
-
-		c.execute(sql, values)
-		counter += c.rowcount
+		
+		try:
+			c.execute(sql, values)
+			counter += c.rowcount
+		except:
+			print(sql)
+			print('')
+			print(values)
+			print('')
+			print(row)
+			input()
 		
 	conn.commit()
+
+
 	print('************')
 	print(f'Successfuly entered {counter} rows of data into {table}')
 	print('************\n')
