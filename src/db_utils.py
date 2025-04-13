@@ -151,7 +151,7 @@ def gen_tankChart_entry_status():
 		in results
 		])
 	
-	sql = f'SELECT DISTINCT tankName FROM {settings.tankCharts}'
+	sql = f'SELECT DISTINCT tank_name FROM {settings.tankCharts}'
 	c.execute(sql)
 	results = c.fetchall()
 	

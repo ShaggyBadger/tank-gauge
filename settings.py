@@ -39,11 +39,9 @@ up_arrow = '&#x2191;'
 down_arrow = '&#x2193;'
 
 # univeral refrence source. handy.
-fuelTypes = 'fuelTypes'
 tankData = 'tankData'
 storeInfo = 'storeInfo'
 tankCharts = 'tankCharts'
-storeTankData = 'storeTankData'
 
 # super common call. put this here so everyone can use it
 def db_connection():
