@@ -3,20 +3,37 @@ import numpy as np
 import importlib
 import initializer
 import settings
-from rich.traceback import install
+from src import dbMaintenance
 
+from rich.traceback import install
 install()
 
-
-np.random.seed(0)
-data = np.random.rand(50, 50)
-
-plt.imshow(data, cmap='viridis', interpolation='mitchell')
-
-plt.colorbar()
-
-plt.show()
+def controller():
+	valid_options = {
+		'1': 'Database Management',
+		'2': 'CLI Program',
+		'q': 'Quit'
+	}
+	
+	valid_selection = False
+	while valid_selection is False:
+		console.clear()
+		print('Tank Gauge Program')
+		print('******************\n')
+		
+		for option in valid_options:
+			print(f'{option}: {valid_options[option]}')
+		
+		print('')
+		selection = input('Please select an option: ')
+		
+		if selection in valid_options:
+			valid_selection = True
+	
+	if selection == '1':
+		dbMaintenance.controller()
+	else:
+		pass
 
 if __name__ == '__main__':
-	importlib.reload(settings)
-	importlib.reload(initializer)
+	controller()
