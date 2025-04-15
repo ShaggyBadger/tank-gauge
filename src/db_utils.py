@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import settings
 import sqlite3
 import console
+import math
 from colorama import init, Fore
 init(autoreset=True)
 
@@ -13,6 +14,50 @@ def db_connection():
 	dbName = settings.DB_PATH
 	conn = sqlite3.connect(dbName)
 	return conn
+
+def calculate_available_inch(tank_name, fuel_amount):
+	'''
+	return tuple:
+		index 0 - max inches
+		index 1 - gallons at max inches
+	'''
+	conn = db_connection()
+	c = conn.cursor()
+	
+	sql = f'''
+	SELECT MAX(gallons)
+	FROM {settings.tankCharts}
+	WHERE tank_name = ?
+	'''
+	value = (tank_name,)
+	c.execute(sql, value)
+	max_gallon = c.fetchone()[0]
+	max_fill_level = math.floor(
+		max_gallon * 0.9
+		)
+	max_gallon_in_tank = max_fill_level - fuel_amount
+	
+	sql = f'''
+	SELECT inches, gallons
+	FROM {settings.tankCharts}
+	WHERE tank_name = ?
+	  AND gallons >= ?
+	 ORDER BY inches ASC
+	 LIMIT 1
+	'''
+	values = (
+		tank_name,
+		max_gallon_in_tank
+		)
+	
+	c.execute(sql, values)
+	result = c.fetchone()
+	inch = result[0]
+	gallon = result[1]
+	
+	conn.close()
+	
+	return (inch, gallon)
 
 def get_column_names(table):
 	conn = db_connection()
