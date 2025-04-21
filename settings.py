@@ -32,6 +32,7 @@ DB_PATH = DATABASE_PATH / 'StrategicFuelCommand.db'
 red = '#ff2400'
 green = '#03ac13'
 warning_orange = '#FF5F15'
+
 swto_blue = '#0b3e69'
 
 # Unicode arrows: ↑ (2191) and ↓ (2193)
