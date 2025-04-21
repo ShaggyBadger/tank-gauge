@@ -29,13 +29,10 @@ DB_PATH = DATABASE_PATH / 'StrategicFuelCommand.db'
 
 
 # easy color reference
-red = (1.0, 0.0, 0.0)
-green = (0.0, 1.0, 0.0)
-blue = (0.0, 0.0, 1.0)
-yellow = (1.0, 1.0, 0.0)
-brown = (0.6, 0.4, 0.2)
-white = 1.0, 1.0, 1.0
-warning_orange = '#ffbc37'
+red = '#ff2400'
+green = '#03ac13'
+warning_orange = '#FF5F15'
+
 swto_blue = '#0b3e69'
 
 # Unicode arrows: ↑ (2191) and ↓ (2193)
