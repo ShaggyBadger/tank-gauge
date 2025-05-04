@@ -76,7 +76,6 @@ def get_tank_info(store_num):
 	
 	return tank_dict
 
-
 def get_tank_chart(tank_name):
 		'''
 		get appropriate tank chart for a tank. tank is tank name like 12k96_generic
@@ -107,7 +106,68 @@ def get_tank_chart(tank_name):
 			chart_dict[inch] = gallon
 		
 		return chart_dict
+
+def get_list_of_stores():
+	conn = db_utils.db_connection()
+	c = conn.cursor()
+	
+	sql = f'''
+	SELECT DISTINCT store_num, riso_num
+	FROM {settings.storeInfo}
+	'''
+	
+	c.execute(sql)
+	results = c.fetchall()
+	
+	conn.close()
+	
+	return results
+
+def get_store_coordinates(store_tuple):
+	conn = db_utils.db_connection()
+	c = conn.cursor()
+	
+	if store_tuple[0]:
+		query_info = ('store_num', store_tuple[0])
+	else:
+		query_info = ('riso_num', store_tuple[1])
 		
+	
+	sql = f'''
+	SELECT lat, lon
+	FROM {settings.storeInfo}
+	WHERE {query_info[0]} = ?;
+	'''
+	value = (query_info[1],)
+	
+	c.execute(sql, value)
+	result = c.fetchone()
+	
+	conn.close()
+	return result
+
+def get_both_store_num(store_num):
+	'''
+	takes in a store or riso number amd hits the db to return both numbers
+	'''
+	conn = db_utils.db_connection()
+	c = conn.cursor()
+	
+	sql =f'''
+	SELECT store_num, riso_num
+	FROM {settings.storeInfo}
+	WHERE store_num = ?
+	   OR riso_num = ?
+	LIMIT 1
+	'''
+	
+	values = (store_num, store_num)
+	c.execute(sql, values)
+	result = c.fetchone()
+	
+	conn.close()
+	
+	return result
 
 if __name__ == '__main__':
 	tank_info = get_tank_info(7900)
