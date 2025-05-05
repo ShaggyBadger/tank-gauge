@@ -599,6 +599,7 @@ class homeScreen(ui.View):
 			btn.border_color = settings.swto_blue
 			btn.corner_radius = 15
 			btn.size_to_fit()
+			btn.width += 20
 			btn.height = 50
 			btn.background_color = settings.swto_blue
 			btn.tint_color = 'white'
@@ -798,6 +799,7 @@ class tankAnalysis(ui.View):
 		text1.placeholder = 'Enter Inches'
 		text1.height = 30
 		text1.width = f.width * 0.4
+		text1.keyboard_type = ui.KEYBOARD_NUMBER_PAD
 		text1.x = x
 		text1.y = y
 		y += text1.height + 5
@@ -806,6 +808,7 @@ class tankAnalysis(ui.View):
 		text2.placeholder = 'Enter Gallons'
 		text2.height = 30
 		text2.width = f.width * 0.4
+		text2.keyboard_type = ui.KEYBOARD_NUMBER_PAD
 		text2.x = x
 		text2.y = y
 		y += text2.height + 5
@@ -821,12 +824,12 @@ class tankAnalysis(ui.View):
 		label4.size_to_fit()
 		
 		label5 = ui.Label()
-		label5.text = f'Inches In Tank: NA'
+		label5.text = f'Start Inches: NA'
 		label5.font = ('Arial-BoldMT', 12)
 		label5.size_to_fit()
 		
 		label6 = ui.Label()
-		label6.text = f'Delivery Gallons: NA'
+		label6.text = f'Start Gallons: NA'
 		label6.font = ('Arial-BoldMT', 12)
 		label6.size_to_fit()
 		
@@ -908,8 +911,8 @@ class tankAnalysis(ui.View):
 				
 		label3.text = f'Ending Inches: {round(final_inch, 2)}'
 		label4.text = f'Ending Gallons: {final_gallon}'
-		label5.text = f'Inches In Tank: {str(start_inch)}'
-		label6.text = f'Delivery Gallons: {str(input_gallon)}'
+		label5.text = f'Start Inches: {str(start_inch)}'
+		label6.text = f'Start Gallons: {str(start_gallon)}'
 		
 		label3.size_to_fit()
 		label4.size_to_fit()
