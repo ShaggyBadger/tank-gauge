@@ -686,34 +686,39 @@ class tankAnalysis(ui.View):
 		self.switch_dict = data_packet['switch_dict']
 		
 		self.appController = parent
+		self.touch_enabled = True
 		self.subview_list = []
 		
-		self.main_frame = ui.View()
+		self.main_frame = ui.ScrollView()
 		self.main_frame.frame = self.appController.bounds
-		self.main_frame.background_color = 'red'
-		
+		self.main_frame.background_color = 'lightgrey'
+
 		self.add_subview(self.main_frame)
 		
 		self.info_frame = self.build_info_frame()
 		self.main_frame.add_subview(self.info_frame)
 		
-		self.build_entry_fields()
+		self.entry_frames = self.build_entry_fields()
+		y = self.info_frame.height + self.info_frame.y
 		
-		for i in self.subview_list:
+		for i in self.entry_frames:
+			i.y = y
+			y += i.height + 10
 			self.main_frame.add_subview(i)
+		
+		self.main_frame.content_size = (self.main_frame.width, y)
 		
 	def build_info_frame(self):
 		f = ui.View()
 		f.width = self.main_frame.width
-		f.background_color = 'yellow'
 		
 		store_nums = queries.get_both_store_num(self.store_num)
 		
 		info_block = ui.TextView()
 		info_block.editable = False
+		info_block.background_color = 'lightgrey'
 		info_block.text = f'''
-		Store Number: {store_nums[0]}\n
-		Riso Number: {store_nums[1]}
+		Store Number: {store_nums[0]} | Riso Number: {store_nums[1]}
 		'''
 		info_block.size_to_fit()
 		info_block.width = f.width
@@ -723,7 +728,9 @@ class tankAnalysis(ui.View):
 		return f
 	
 	def build_entry_fields(self):
-		for switch in self.switch_dict:
+		entry_frames = []
+		
+		for switch in self.switch_dict:	
 			if self.switch_dict[switch] is True:
 				tank_list = self.tank_info[switch]
 				for tank in tank_list:
@@ -741,7 +748,9 @@ class tankAnalysis(ui.View):
 					}
 					
 					entry_frame = self.build_entry_frame(data_set)
-					self.subview_list.append(entry_frame)
+					
+					entry_frames.append(entry_frame)
+		return entry_frames
 	
 	def build_entry_frame(self, data_set):
 		chart = data_set['chart']
@@ -749,90 +758,167 @@ class tankAnalysis(ui.View):
 		fuel_type = data_set['fuel_type']
 		tank = data_set['tank']
 		
+		colors = {
+			'regular': 'white',
+			'plus': '#4a87ff',
+			'premium': '#ff0000',
+			'kerosene': '#a55c37',
+			'diesel': '#ffcd6a'
+		}
+		
 		f = ui.View()
 		f.border_width = 1
-		f.corner_radius = 15
 		f.width = self.main_frame.width
 		f.y = self.info_frame.height
 		
-		left_f = ui.View()
-		left_f.width = f.width * 0.7
-		left_f.x = 0
-		left_f.border_width = 2
-		f.add_subview(left_f)
-		
-		right_f = ui.View()
-		right_f.width = f.width * 0.3
-		right_f.x = left_f.x + left_f.width
-		f.add_subview(right_f)
-		
-		'''make left frame stuff'''
 		label1 = ui.Label()
 		label1.text = f'Fuel Type: {fuel_type}'
+		label1.background_color = colors[fuel_type]
+		label1.font = ('Arial-BoldMT', 12)
 		label1.size_to_fit()
-		label1.y = 0
 		
 		label2 = ui.Label()
 		label2.text = f'Tank Name: {tank}'
+		label2.font = ('Arial-BoldMT', 12)
 		label2.size_to_fit()
-		label2.y = label1.y + label1.height
 		
-		label3 = ui.Label()
-		label3.text = f'Delivery Gallons: '
-		label3.size_to_fit()
-		label3.y = label2.y = label2.height
+		y = 0
+		x = 10
 		
-		label4 = ui.Label()
-		label4.text = f'Inches In Tank: '
-		label4.size_to_fit()
-		label4.y = label3.y = label4.height
+		label1.y = y
+		label1.x = x
+		y += label1.height + 5
+		
+		label2.y = y
+		label2.x = x
+		y += label2.height + 5
+		
 		
 		text1 = ui.TextField()
-		text1.y = label3.y
-		text1.x = label3.x + label3.width
+		text1.placeholder = 'Enter Inches'
+		text1.height = 30
+		text1.width = f.width * 0.4
+		text1.x = x
+		text1.y = y
+		y += text1.height + 5
 		
 		text2 = ui.TextField()
-		text2.y = label4.y
-		text2.x = label4.x + label4.width
+		text2.placeholder = 'Enter Gallons'
+		text2.height = 30
+		text2.width = f.width * 0.4
+		text2.x = x
+		text2.y = y
+		y += text2.height + 5
+		
+		label3 = ui.Label()
+		label3.text = f'Ending Inches: NA'
+		label3.font = ('Arial-BoldMT', 12)
+		label3.size_to_fit()
+		
+		label4 = ui.Label()
+		label4.text = f'Ending Gallons: NA'
+		label4.font = ('Arial-BoldMT', 12)
+		label4.size_to_fit()
+		
+		label5 = ui.Label()
+		label5.text = f'Inches In Tank: NA'
+		label5.font = ('Arial-BoldMT', 12)
+		label5.size_to_fit()
+		
+		label6 = ui.Label()
+		label6.text = f'Delivery Gallons: NA'
+		label6.font = ('Arial-BoldMT', 12)
+		label6.size_to_fit()
+		
+		label5.y = text1.y
+		label5.x = f.width * 0.5
+		
+		label6.y = label5.y + label5.height + 5
+		label6.x = f.width * 0.5
+		
+		label3.y = label6.y + label6.height + 5
+		label3.x = f.width * 0.5
+		
+		label4.y = label3.y + label3.height + 5
+		label4.x = f.width * 0.5
 		
 		btn = ui.Button()
 		btn.title = 'Submit'
-		btn.border_width = 1
+		btn.size_to_fit()
+		btn.height = 30
 		btn.width += 20
-		btn.corner_radius = 15
 		btn.background_color = settings.swto_blue
 		btn.tint_color = 'white'
-		btn.delivery_gallons = text1
-		btn.inches_in_tank = text2
-		btn.x = text2.x + text2.width - btn.width
+		btn.font = ('Arial-BoldMT', 12)
+		btn.corner_radius = 15
+		btn.border_width = 1
+		btn.x = x
+		btn.y = y
+		y += btn.height + 5
+		btn.inch_input = text1
+		btn.gallon_input = text2
+		btn.inch_result = label3
+		btn.gallon_result = label4
+		btn.inch_in_tank = label5
+		btn.delivery_gallons = label6
+		btn.chart = chart
+		btn.action = self.calculate_result
 		
-		l_subviews = [label1, label2, label3, label4, text1, text2, btn]
+		f.add_subview(label1)
+		f.add_subview(label2)
+		f.add_subview(text1)
+		f.add_subview(text2)
+		f.add_subview(btn)
+		f.add_subview(label3)
+		f.add_subview(label4)
+		f.add_subview(label5)
+		f.add_subview(label6)
 		
-		for i in l_subviews:
-			left_f.add_subview(i)
-		
-		'''Now make right frame stuff'''
-		label5 = ui.Label()
-		label5.text = f'Current Gallons In Tank: '
-		
-		label5_1 = ui.Label()
-		label5_1.text = '0'
-		
-		label6 = ui.Label()
-		label6.text = f'Ending Inch: '
-		
-		label6_1 = ui.Label()
-		label6_1.text = '0'
-		
-		label7 = ui.Label()
-		label7.text = f'Ending Gallons: '
-		
-		label7_1 = ui.Label()
-		label7_1.text = '0'
-		
-		
+		f.height = y
 		
 		return f
+	
+	def calculate_result(self, sender):
+		ui.end_editing()
+		text1 = sender.inch_input
+		text2 = sender.gallon_input
+		label3 = sender.inch_result
+		label4 = sender.gallon_result
+		label5 = sender.inch_in_tank
+		label6 = sender.delivery_gallons
+		chart = sender.chart
+		
+		start_inch = int(text1.text)
+		start_gallon = chart[start_inch]
+		input_gallon = int(text2.text)
+		final_gallon = start_gallon + input_gallon
+		
+		inches = sorted(chart.keys())
+		
+		for i in range(len(inches) - 1):
+			g1 = chart[inches[i]]
+			g2 = chart[inches[i + 1]]
+			
+			if g1 <= final_gallon <= g2:
+				i1 = inches[i]
+				i2 = inches[i +1]
+				
+				final_inch = i1 + (final_gallon - g1) * (i2 - i1) / (g2 - g1)
+				break
+				
+		label3.text = f'Ending Inches: {round(final_inch, 2)}'
+		label4.text = f'Ending Gallons: {final_gallon}'
+		label5.text = f'Inches In Tank: {str(start_inch)}'
+		label6.text = f'Delivery Gallons: {str(input_gallon)}'
+		
+		label3.size_to_fit()
+		label4.size_to_fit()
+		label5.size_to_fit()
+		label6.size_to_fit()
+		
+	def touch_began(self, touch):
+		# this method allows the keyboard to go away when user touches screen
+		ui.end_editing()
 	
 
 class appController(ui.View):
