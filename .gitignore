@@ -29,6 +29,7 @@ Thumbs.db
 *.jpeg
 *.pdf
 /data/misc/temp.py
+*xlsx
 
 
 
