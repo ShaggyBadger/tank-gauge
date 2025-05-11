@@ -110,6 +110,7 @@ def process_all_charts():
 		c = conn.cursor()
 		
 		file_path = charts_path / file
+		print(file)
 		df = pd.read_excel(file_path)
 		
 		# build column names
