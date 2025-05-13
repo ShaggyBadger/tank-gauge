@@ -103,6 +103,7 @@ def process_all_charts():
 	file_list = [
 		file for file
 		in os.listdir(charts_path)
+		if file.lower().endswith('.xlsx')
 		]
 	
 	for file in file_list:

@@ -98,8 +98,6 @@ def get_tank_chart(tank_name):
 		c.execute(sql, value)
 		results = c.fetchall()
 		conn.close()
-		print(sql,value)
-		print(results)
 		
 		chart_dict = {}
 		for result in results:
