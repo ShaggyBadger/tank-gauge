@@ -4,6 +4,7 @@ import importlib
 import initializer
 import settings
 import console
+import initializer
 from src import ui_maxInch
 from src import dbMaintenance
 from cli import cli_scripts
@@ -17,6 +18,7 @@ def controller():
 		'1': 'Database Management',
 		'2': 'CLI Program',
 		'3': 'Activate UI',
+		'4': 'Initialize Project',
 		'q': 'Quit'
 	}
 	
@@ -41,6 +43,8 @@ def controller():
 		cli_scripts.controller()
 	elif selection == '3':
 		ui_maxInch.controller()
+	elif selection == '4':
+		initializer.controller()
 	else:
 		pass
 
