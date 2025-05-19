@@ -224,14 +224,14 @@ def gen_tankChart_entry_status():
 		print(f'  {tank}')
 	print(f'\n**************\n')
 	print(f'Complete list of tanks:')
-	for tank in all_tank_names:
-		if tank in processed_tank_names:
-			tank_status = 'Complete'
-			console.set_color(0, 1, 0)  # Green
-		else:
-			tank_status = 'Missing'
-			console.set_color(1, 0, 0)  # Red
-		
+	for tank in processed_tank_names:
+		tank_status = 'Complete'
+		console.set_color(0, 1, 0)  # Green
+		print(f'{tank}\nstatus: {tank_status}\n')
+		console.set_color(1,1,1)
+	for tank in tanks_still_needed:
+		tank_status = 'Missing'
+		console.set_color(1, 0, 0)  # red
 		print(f'{tank}\nstatus: {tank_status}\n')
 		console.set_color(1,1,1)
 		

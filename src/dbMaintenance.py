@@ -152,6 +152,7 @@ def controller():
 		'1': 'Print Table Info',
 		'2': 'Update Missing Coordinates',
 		'3': 'Get Current Location Data',
+		'4': 'Print Out Tank Entries',
 		'q': 'Quit'
 	}
 	
@@ -170,12 +171,15 @@ def controller():
 		if selection in valid_options:
 			valid_selection = True
 	
+	console.clear()
 	if selection == '1':
 		print_table_info()
 	elif selection == '2':
 		update_missing_coordinates()
 	elif selection == '3':
 		get_current_location()
+	elif selection == '4':
+		db_utils.gen_tankChart_entry_status()
 	else:
 		pass
 
