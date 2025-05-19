@@ -118,14 +118,15 @@ def home_screen():
 	
 
 	
-	
-	
-	
-
-if __name__ == '__main__':
+def controller():
 	from rich.traceback import install
 	install()
 	importlib.reload(db_utils)
 	importlib.reload(settings)
 	
 	home_screen()
+	
+	
+
+if __name__ == '__main__':
+	controller()
