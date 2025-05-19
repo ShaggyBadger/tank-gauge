@@ -988,8 +988,8 @@ class appController(ui.View):
 	
 	def will_close(self):
 		self.location.stop_updates()
-				
-if __name__ == '__main__':
+		
+def controller():
 	from rich.traceback import install
 	install()
 	importlib.reload(db_utils)
@@ -1002,3 +1002,7 @@ if __name__ == '__main__':
 	
 	app = appController()
 	app.present('fullscreen')
+	
+				
+if __name__ == '__main__':
+	controller()

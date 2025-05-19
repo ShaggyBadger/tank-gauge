@@ -79,6 +79,7 @@ def update_missing_coordinates():
 	bad_address = []
 	
 	for result in results:
+		print('\n*********+++++++********')
 		id = result[0]
 		sql = f'''
 		SELECT address, city, state
@@ -97,12 +98,28 @@ def update_missing_coordinates():
 		
 		try:
 			location = geolocator.geocode(complete_address)
+			print(complete_address)
+			print(location)
 			
 			try:
 				lat = location.latitude
 				lon = location.longitude
+				print(f'lat: {lat}')
+				print(f'lon: {lon}')
 				
-				good_address[id] = [lat, lon]
+				sql = f'''
+				UPDATE {settings.storeInfo}
+				SET lat = ?,
+				lon = ?
+				WHERE id = ?
+				'''
+				values = (lat, lon, id)
+				c.execute(sql, values)
+				
+				print('Saving to db.....\n')
+				conn.commit()
+				print('Save Complete')
+				
 			except:
 				bad_address.append(complete_address)
 			
@@ -114,36 +131,27 @@ def update_missing_coordinates():
 	for address in bad_address:
 		print(address)
 	print('*******\n')
-	print(len(good_address))
-	for i in good_address:
-		lat = good_address[i][0]
-		lon = good_address[i][1]
-		print(i)
-		print(f'lat: {lat}')
-		print(f'lon: {lon}')
-		print('')
-	
-	for id in good_address:
-		coords = good_address[id]
-		lat = coords[0]
-		lon = coords[1]
-		
-		sql = f'''
-		UPDATE {settings.storeInfo}
-		SET lat = ?,
-		    lon = ?
-		WHERE id = ?
-		'''
-		values = (lat, lon, id)
-		c.execute(sql, values)
 		
 	conn.commit()
 	conn.close()
+
+def get_current_location():
+	import location
+	import time
+	
+	location.start_updates()
+	print('Gathering Location Data\n')
+	time.sleep(2)
+	location.stop_updates()
+	loc = location.get_location()
+	for i in loc:
+		print(f'{i}: {loc[i]}')
 
 def controller():
 	valid_options = {
 		'1': 'Print Table Info',
 		'2': 'Update Missing Coordinates',
+		'3': 'Get Current Location Data',
 		'q': 'Quit'
 	}
 	
@@ -166,6 +174,8 @@ def controller():
 		print_table_info()
 	elif selection == '2':
 		update_missing_coordinates()
+	elif selection == '3':
+		get_current_location()
 	else:
 		pass
 

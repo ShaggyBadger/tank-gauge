@@ -3,7 +3,11 @@ import numpy as np
 import importlib
 import initializer
 import settings
+import console
+from src import ui_maxInch
 from src import dbMaintenance
+from cli import cli_scripts
+
 
 from rich.traceback import install
 install()
@@ -12,6 +16,7 @@ def controller():
 	valid_options = {
 		'1': 'Database Management',
 		'2': 'CLI Program',
+		'3': 'Activate UI',
 		'q': 'Quit'
 	}
 	
@@ -32,6 +37,10 @@ def controller():
 	
 	if selection == '1':
 		dbMaintenance.controller()
+	elif selection == '2':
+		cli_scripts.controller()
+	elif selection == '3':
+		ui_maxInch.controller()
 	else:
 		pass
 
