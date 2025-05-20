@@ -1,8 +1,8 @@
 import sys, os
-import importlib
 # Add the project root directory to the Python path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
+import importlib
 from src import db_utils
 from src import queries
 import settings
@@ -992,6 +992,7 @@ class appController(ui.View):
 def controller():
 	from rich.traceback import install
 	install()
+	import settings
 	importlib.reload(db_utils)
 	importlib.reload(queries)
 	importlib.reload(settings)
